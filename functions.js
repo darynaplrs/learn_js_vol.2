@@ -4,12 +4,17 @@ let arr = [1, 6, 3, 7, 3, 2, 90];
 let arr2 = [3, 4, 2, 5, 67, 3, 4];
 
 function sumAll(...args){
-	alert(`Додатків: ${arguments.length}`);
+	console.log(typeof(args));
+	// alert(`Додатків: ${arguments.length}`);
 	let sum = 0;
 	for (let item of args){
-		sum += +item;
+		sum += item;
 	}
 	return sum;
+}
+
+function average(...args){
+	return sumAll(args) / average.length;
 }
 
 let arrCopy = [...arr]; //making a copy
@@ -79,7 +84,7 @@ function makeArmy() {
 
   while (i < 10) {
   	let shooterNum = i;
-  	
+
   	let shooter = function() { // створюємо функцію стрільця,
     	alert( shooterNum ); // що має показувати свій номер
     };
@@ -97,21 +102,117 @@ let army = makeArmy();
 
 
 
+// Властивості функцій як обʼєктів
+
+function sayBye(){
+	console.log("Bye!");
+
+	// sayBye.counter++;
+	// console.log(`Counter is: ${sayBye.counter}`);
+}
+
+
+
+let whichColor = function bl(which){
+	if (which){
+		alert(`This color is: ${which}`)
+	} else {
+		bl("neutral")
+	}
+};
+
+let whatColor = whichColor;
+whichColor = null;
+
+
+
+// Встановити і зменшити лічильник
+
+/*function makeCounter(){
+
+function counter(){
+	return counter.count++;
+
+}
+
+	counter.count = 0;
+
+	return counter;
+}*/
+
+
+// let timerId = setInterval(sayBye, 1000);
+// setTimeout(()=> {clearInterval(timerId); alert("stop"); }, 3002);
+
+//алтернативний спосіб на setInterval
+/*let timerId2 = setTimeout(function tick(){
+	alert("tick");
+	timerId2 = setTimeout(tick, 1000)
+}, 1000);
+*/
 
 
 
 
+// Вивід кожної секунди
+
+function printNumbers1(from, to) {
+	let current = from;
+
+	let timerId = setInterval(function(){
+		alert(current);
+		if (current === to){
+			clearInterval(timerId);
+		}
+		current++;
+	}, 1000)
+}
+
+
+function printNumbers2(from, to){
+	let current = from;
+
+	setTimeout( function go(){
+		alert(current);
+		if(current < to) {
+			setTimeout(go, 1000)
+		}
+		current++;
+
+	}, 1000)
+
+}
 
 
 
+//Декоратори
+
+function spy(func){
+
+	function wrapper(...args){ //стоврюємо основну функцію декоратора
+		wrapper.calls.push(args); //додаємо до масиву, котрий створимо нижчеаргументи функції
+		return func.apply(this, args); // повертаємо виклик функції з контекстом в this
+	}
+
+	wrapper.calls = []; //створюємо той масив
+
+	return wrapper; // повертаємо функцію декоратора
+}
+
+function work(a, b) {
+  alert( a + b ); // працює як довільна функція або метод
+}
+
+work = spy(work); //додаємо декоратор
 
 
+// ----------
 
+function mul(a, b){
+	return a * b;
+}
 
-
-
-
-
+let double = mul.bind(null, 2);
 
 
 
